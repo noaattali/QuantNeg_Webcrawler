@@ -15,13 +15,16 @@ hub_url = "https://www.npr.org/programs/all-things-considered/archive?date=12-31
 page = requests.get(hub_url)
 soup = BeautifulSoup(page.content, "html.parser")
 
-def search_months():
-    pass
+def search_months(year_list: list):
+    for year in year_list:
+        for month in year:
+            pass
 
-def crawl_NPR():
+def crawl_NPR_archives():
     archive_container = soup.find("nav", {"class": "archive-nav"})
-    years = archive_container.find_all("div")[1:] #Remove year 2022 as it has no transcripts
+    years = archive_container.find_all("div")[1:] #Remove year 2022 as it has no handwritten transcripts
     search_months(years)
+    print(years)
 
 def write_csv_file():
     pass
@@ -29,4 +32,4 @@ def write_csv_file():
 
 
 if __name__ == "__main__":
-    crawl_NPR()
+    crawl_NPR_archives()
