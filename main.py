@@ -16,9 +16,11 @@ page = requests.get(hub_url)
 soup = BeautifulSoup(page.content, "html.parser")
 
 def search_months(year_list: list):
-    for year in year_list:
-        for month in year:
-            pass
+    # for year in year_list:
+    #     for month in year:
+    #         pass
+    for i in range(len(year_list[0])):
+        print(year_list[0][i])
 
 def crawl_NPR_archives():
     archive_container = soup.find("nav", {"class": "archive-nav"})
