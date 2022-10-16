@@ -15,15 +15,18 @@ hub_url = "https://www.npr.org/programs/all-things-considered/archive?date=12-31
 page = requests.get(hub_url)
 soup = BeautifulSoup(page.content, "html.parser")
 
+def validate_quant_neg(article_link):
+    pass
+
+
 def grab_day_links():#month_link: str):
     test = "https://www.npr.org//programs/all-things-considered/archive?date=12-31-2021"
     page = requests.get(test)
     month = BeautifulSoup(page.content, "html.parser")
-    day_segments = month.find(id="episode-list")
-    for segment in day_segments:
-        print(segment.next_sibling)
-
-
+    episode_list = month.find(id="episode-list")
+    temp_list = []
+    for article in episode_list.find_all("article", {"class": "program-segment"}):
+        validate_quant_neg(article.find('a').get('href'))
 
 def search_months(year_list: list):
     main_link = "https://www.npr.org/"
