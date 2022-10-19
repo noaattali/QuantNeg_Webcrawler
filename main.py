@@ -93,14 +93,26 @@ def write_csv():
     with open('NPR_quantneg_sentences.csv', 'w', encoding='UTF8') as f:
         csv_writer = writer(f)
         csv_writer.writerow(header)
-        csv_writer.writerow(sent for sent in found_sentences)
+        for sent in found_sentences:
+            csv_writer.writerow(sent)
 
-def crawl_NPR_archives():
+def main():
     archive_container = soup.find("nav", {"class": "archive-nav"})
     years = archive_container.find_all("div")[1:] #Remove year 2022 as it has no handwritten transcripts
     search_months(years)
 
-    write_csv()
+def crawl_NPR_archives():
+
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        pass
+
+    try:
+        write_csv()
+    except:
+        print("Shit whoops")
 
     print(presentation_stats)
     print("Webcrawler Complete!")

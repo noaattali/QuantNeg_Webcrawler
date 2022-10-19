@@ -9,7 +9,12 @@ def grab_audio_link(soup):
     print(attributes['href'])
 
 def extract_transcript(soup) -> list[str]:
-    text_container = soup.find(class_ = "transcript storytext")
+    audio_tool_transcript = soup.find("li", class_="audio-tool audio-tool-transcript").a.get("href")
+
+    page = requests.get(audio_tool_transcript)
+    transcript_soup = BeautifulSoup(page.content, "html.parser")
+
+    text_container = transcript_soup.find(class_ = "transcript storytext")
     text_tags = text_container.find_all("p")[:-2] # Last two lines are just disclaimers and copyright
     sentences = []
     for lines in text_tags:
@@ -25,7 +30,7 @@ def extract_metadata(soup):
 
 
 if __name__ == "__main__":
-    url = "https://www.npr.org/2021/12/31/1069538905/colorado-residents-assess-damage-from-wildfires"
+    url = "https://www.npr.org/2012/09/28/161974470/week-in-politics-u-n-general-assembly-debates"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
     print(extract_transcript(soup))
