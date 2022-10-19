@@ -1,8 +1,9 @@
 import tqdm
 import requests
 from bs4 import BeautifulSoup
-import QuaNISC
-import NPR_webscraper
+import QuaNISC as qn
+import NPR_webscraper as npr
+from clause_counter import count_clauses
 
 clauses = 0
 
@@ -14,13 +15,13 @@ soup = BeautifulSoup(page.content, "html.parser")
 def validate_quant_neg(article_link: str):
     page = requests.get(article_link)
     soup = BeautifulSoup(article_link)
-    sentences = extract_transcript(soup)
-    if QuaNISC.is_quantifier_negation(sentences):
-        identifications, indices = QuaNISC.find_quantifer_negation(sentences)
-        context = get_context(sentences, indices)
+    sentences = npr.extract_transcript(soup)
+    if qn.is_quantifier_negation(sentences):
+        identifications, indices = qn.find_quantifer_negation(sentences)
+        context = qn.get_context(sentences, indices)
         #grab audiofile
-        title, speakers, date = extract_metadata(soup)
-        clauses += clause_counter()
+        title, speakers, date = npr.extract_metadata(soup)
+        clauses += count_clauses()
 
 
 
