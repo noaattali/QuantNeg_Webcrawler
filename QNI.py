@@ -1,4 +1,4 @@
-# Ambiguity Sentence Identifier
+# Quantifier Negation sentence Identifier
 import spacy
 spacy.require_gpu()
 nlp = spacy.load("en_core_web_sm")
@@ -8,11 +8,12 @@ print('INFO: spaCy initialized successfully.')
 def get_quantifier(sentence, quantifiers: list[str]):
     doc = nlp(sentence)
     dep = ['det', 'poss', 'advmod', 'nmod', 'nsubj', 'nsubjpass', 'ROOT']
+
     for token in doc:
-        for quantifier in quantifiers:
-            if (quantifier in token.text.lower()) and (token.dep_ in dep):
-                if token.text != 'know':
-                    return token
+        if (token.text.lower() in quantifiers) and (token.dep_ in dep):
+            if token.text != 'know':
+                return token
+
     return None
 
 
@@ -84,23 +85,28 @@ def validate_quant_neg(transcript: list[str], quantifiers):
 
     return False
 
+def is_standalone():
+    pass
 
 def find_quantifier_negation(sentences, quantifiers):
     print('INFO: Beginning search for quantifier + negation statements.')
     quants = []
-    ret = []
+    sents = []
+    standalone = []
     i = 0
     indices = []
     for sentence in sentences:
         if is_quantifier_negation(sentence, quantifiers):
             quants.append(get_quantifier(sentence, quantifiers).text)
-            ret.append(sentence)
+            sents.append(sentence)
             indices.append(i)
+            standalone.append("True" if is_standalone(sentence, quantifiers) else "False")
+
         i = i+1
 
     print('INFO: Search completed with ' + str(len(ret)) + ' potential quantifier + negations.')
     print("\n")
-    return quants, ret, indices
+    return quants, sents, indices
 
 def get_context(sentences, indices):
     ret = []

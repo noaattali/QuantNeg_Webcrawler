@@ -2,7 +2,7 @@ import tqdm
 import requests
 from csv import writer
 from bs4 import BeautifulSoup
-import QuaNISC as qn
+import QNI as qn
 import NPR_webscraper as npr
 from clause_counter import count_clauses
 
