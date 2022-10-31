@@ -70,6 +70,8 @@ def is_quantifier_negation(sentence: str, quantifiers):
     quantifier = get_quantifier(sentence, quantifiers)
     if quantifier is None:
         return False
+
+    "Second check"
     if reversed_traversal(sentence, quantifiers):
         return True
     q_root = get_q_root(quantifier)
@@ -104,7 +106,7 @@ def find_quantifier_negation(sentences, quantifiers):
 
         i = i+1
 
-    print('INFO: Search completed with ' + str(len(ret)) + ' potential quantifier + negations.')
+    print('INFO: Search completed with ' + str(len(sents)) + ' potential quantifier + negations.')
     print("\n")
     return quants, sents, indices
 
