@@ -1,7 +1,8 @@
 # Quantifier Negation sentence Identifier
 import spacy
-spacy.require_gpu()
-nlp = spacy.load("en_core_web_sm")
+spacy.prefer_gpu()
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 print('INFO: spaCy initialized successfully.')
 
 
@@ -74,6 +75,7 @@ def is_quantifier_negation(sentence: str, quantifiers):
     "Second check"
     if reversed_traversal(sentence, quantifiers):
         return True
+
     q_root = get_q_root(quantifier)
     if assoc_negation_exists(sentence, q_root):
         return True
@@ -102,7 +104,7 @@ def find_quantifier_negation(sentences, quantifiers):
             quants.append(get_quantifier(sentence, quantifiers).text)
             sents.append(sentence)
             indices.append(i)
-            standalone.append("True" if is_standalone(sentence, quantifiers) else "False")
+            # standalone.append("True" if is_standalone(sentence, quantifiers) else "False")
 
         i = i+1
 
